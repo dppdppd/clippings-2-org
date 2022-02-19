@@ -56,9 +56,12 @@ for file in os.listdir(args.dir):
             created_ts = parser.parse(hl["CreatedKindle"]).timestamp()
             org_ts = datetime.fromtimestamp( created_ts ).strftime( ORG_TIMESTAMP_FORMAT )
 
-            outbuf += f'* {hl["AnnotationType"]}\n'
+            outbuf += f'* {hl["Content"][:80]}\n'
             outbuf += f':PROPERTIES:\n'
             outbuf += f':CREATED: {org_ts}\n'
+
+            outbuf += f':TITLE: {hl["BookTitle"]}\n'
+            outbuf += f':AUTHOR: {hl["BookAuthor"]}\n'
 
             if hl["Location"]:
                 outbuf += f':LOCATION: {hl["Location"]}\n'
@@ -72,7 +75,14 @@ for file in os.listdir(args.dir):
             outbuf += '\n'
             outbuf += f'{hl["Content"]}\n'
 
+            if 'Notes' in hl:
+                for note in hl["Notes"]:
+                    outbuf += f'** Note\n'
+                    outbuf += f'{note}\n'
+
             outbuf += '\n'
 
-    with open(os.path.join( args.outdir, file.replace('.json','.org') ), "w") as f:
+    created_ts = parser.parse(of[0]["CreatedKindle"]).timestamp()
+    date_prefix = datetime.fromtimestamp( created_ts ).strftime( '%Y%m%d - ' )
+    with open(os.path.join( args.outdir, date_prefix + file.replace('.json','.org') ), "w") as f:
         f.write(outbuf)
