@@ -3,15 +3,11 @@
 
 import os
 import sys
-import logging
 from dateutil import parser
 import argparse
 from datetime import datetime
 import time
-import shortuuid
 import uuid
-import re
-import glob
 import json
 
 def dir_path(path):
