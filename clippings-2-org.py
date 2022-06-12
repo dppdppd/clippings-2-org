@@ -85,7 +85,7 @@ for file in os.listdir(args.dir):
             outbuf += '\n'
 
     created_ts = parser.parse(of[0]["CreatedKindle"]).timestamp()
-    date_prefix = datetime.fromtimestamp( created_ts ).strftime( '%Y%m%d - ' )
+    date_prefix = datetime.fromtimestamp( created_ts ).strftime( '%Y%m%d ' )
 
     with open(os.path.join( args.outdir, date_prefix + file.replace('.json','.org') ), "w") as f:
         f.write(outbuf)
